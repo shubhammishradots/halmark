@@ -76,6 +76,8 @@ class PrintBuilder implements PrintBuilderInterface {
       '#title' => $this->t('View'),
       '#content' => $content,
       '#attached' => [],
+	  '#entity_id' => $entity->id(),
+      '#entity_date' =>  \Drupal::service('date.formatter')->format($entity->getCreatedTime(),'custom', 'd-m-Y'),
     ];
     return $renderer->generateHtml([$entity], $render, $use_default_css, $optimize_css);
   }
@@ -127,6 +129,8 @@ class PrintBuilder implements PrintBuilderInterface {
       '#title' => $this->t('View @type', ['@type' => $print_engine->getExportType()->label()]),
       '#content' => $content,
       '#attached' => [],
+	  '#entity_id' => $first_entity->id(),
+      '#entity_date' => \Drupal::service('date.formatter')->format($first_entity->getCreatedTime(), 'custom', 'd-m-Y'),
     ];
 
     $print_engine->addPage($renderer->generateHtml($entities, $render, $use_default_css, TRUE));
